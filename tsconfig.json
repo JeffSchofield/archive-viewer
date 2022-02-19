@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "lib": ["ES2021.String", "esnext", "dom"],
+    "types": ["@types/node", "vite/client", "@types/resize-observer-browser"],
+    "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+}
