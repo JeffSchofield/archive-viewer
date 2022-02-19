@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import { ref, computed } from 'vue'
 	import { capitalizeFirstLetterAllWords } from '../utils'
+	import { format, formatDistanceStrict } from 'date-fns/fp'
 	import fuzzysort from 'fuzzysort'
 	import TextInput from '../components/TextInput.vue'
 	import SelectEnum from '../components/SelectEnum.vue'
@@ -45,6 +46,12 @@
 			return getByID(route.params.id)
 		}
 	})
+	const selected_date = computed(() => new Date((selected.value || { time: 0 }).time * 1000))
+	const selected_featured_date = computed(() => {
+		if (selected.value && selected.value.featured_time) return new Date(selected.value.featured_time * 1000)
+	})
+
+	const formatToNow = formatDistanceStrict(Date.now())
 </script>
 
 <template>
@@ -80,6 +87,32 @@
 				<div class="flex flex-col gap-1/2 p-1/2">
 					<div class="p-1/2 rounded-1/2 border border-neutral-300 dark:border-neutral-750 bg-neutral-250 dark:bg-neutral-800 whitespace-pre-wrap">
 						{{ selected.desc }}
+					</div>
+					<div class="rounded-1/2 border border-neutral-300 dark:border-neutral-750 bg-neutral-250 dark:bg-neutral-800 whitespace-pre-wrap">
+						<div class="p-1/2 leading-3/4 font-bold">Details</div>
+						<dl>
+							<div v-if="selected.music && selected.music != '---'" class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
+								<dt>Music</dt>
+								<div class="flex-1 leader"></div>
+								<dd class="col-span-2 font-semibold">{{ selected.music }}</dd>
+							</div>
+							<div v-if="selected.soundeffects && selected.soundeffects != '---'" class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
+								<dt>Sound Effects</dt>
+								<div class="flex-1 leader"></div>
+								<dd class="col-span-2 font-semibold">{{ selected.soundeffects }}</dd>
+							</div>
+							<div class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
+								<dt>Upload Date</dt>
+								<div class="flex-1 leader"></div>
+								<dd class="col-span-2 font-semibold">{{ format("MMMM dd, yyyy", selected_date) }} ({{ formatToNow(selected_date) }} ago)</dd>
+							</div>
+							<div v-if="selected_featured_date" class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
+								<dt>Featured Date</dt>
+								<div class="flex-1 leader"></div>
+								<dd class="col-span-2 font-semibold">{{ format("MMMM dd, yyyy", selected_featured_date) }} ({{ formatToNow(selected_featured_date) }} ago)</dd>
+							</div>
+						</dl>
+						<div class="h-1"></div>
 					</div>
 					<div class="flex flex-col rounded-1/2 border border-neutral-300 dark:border-neutral-750">
 						<button @click="show_metadata = !show_metadata" class="block w-full p-1/2 text-left bg-neutral-250 dark:bg-neutral-800" :class="{'rounded-t-1/2': show_metadata, 'rounded-1/2': !show_metadata}">Show metadata</button>
