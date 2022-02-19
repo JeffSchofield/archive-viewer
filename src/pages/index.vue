@@ -41,7 +41,6 @@
 	})
 
 	const selected = computed(() => {
-		console.log(route)
 		if (route.params.id) {
 			return getByID(route.params.id)
 		}
