@@ -46,7 +46,7 @@ async function bootstrap() {
 				let string_match = metadata_value.match(/'((?:\\[\s\S]|[^'\\])*)'/)
 
 				if (string_match) metadata_value = string_match[1]
-				if (metadata_key == 'shortdesc' || metadata_key == 'desc') metadata_value = decodeString(metadata_value)
+				if (['shortdesc', 'desc', 'music', 'soundeffects', 'name'].includes(metadata_key)) metadata_value = decodeString(metadata_value)
 
 				let number_match = metadata_value.match(/^([0-9]*[.])?[0-9]*$/)
 				if (number_match) db_value = parseFloat(number_match[0])
