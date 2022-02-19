@@ -76,9 +76,12 @@
 		<div v-if="selected" :key="selected.id" class="min-w-20 w-full flex flex-col" :style="`max-width: ${selected.width}px`">
 			<div class="p-1/2 text-sm font-semibold bg-neutral-250 dark:bg-neutral-900">Submission Details</div>
 			<div class="flex-1 bg-neutral-150 dark:bg-neutral-850 overflow-y-auto">
-				<div class="p-1/2 flex flex-col gap-1/4">
-					<div class="text-2xl leading-1 font-bold break-all">{{ selected.shortdesc }}</div>
-					<div class="leading-3/4 text-neutral-600">by <span class="font-semibold text-black dark:text-white">{{ selected.username }}</span></div>
+				<div class="flex items-center gap-1/2">
+					<div class="flex-1 p-1/2 flex flex-col gap-1/4">
+						<div class="text-2xl leading-1 font-bold break-all">{{ selected.name }}</div>
+						<div class="leading-3/4 text-neutral-600">by <span class="font-semibold text-black dark:text-white">{{ selected.username }}</span></div>
+					</div>
+					<div class="p-1/2 text-4xl font-black bg-neutral-900">{{ selected.score }}</div>
 				</div>
 				<div class="p-1/2 bg-neutral-500 dark:bg-neutral-950">
 					<Player :file_id="selected.file_id" :width="selected.width" :height="selected.height" />
