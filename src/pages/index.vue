@@ -93,6 +93,11 @@
 					<div class="rounded-1/2 border border-neutral-300 dark:border-neutral-750 bg-neutral-250 dark:bg-neutral-800 whitespace-pre-wrap">
 						<div class="p-1/2 leading-3/4 font-bold">Details</div>
 						<dl>
+							<div class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
+								<dt>Views</dt>
+								<div class="flex-1 leader"></div>
+								<dd class="col-span-2 font-semibold">{{ selected.views }}</dd>
+							</div>
 							<div v-if="selected.music && selected.music != '---'" class="flex gap-1/2 p-1/2 even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850">
 								<dt>Music</dt>
 								<div class="flex-1 leader"></div>
