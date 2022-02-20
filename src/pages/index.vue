@@ -18,9 +18,21 @@
 		DESC = 'desc',
 	}
 
+	enum SortByFields {
+		SCORE = 'score',
+		VIEWS = 'views',
+		TIME = 'time'
+	}
+
+	enum SortDirection {
+		DESC = 'desc',
+		ASC = 'asc'
+	}
+
 	const search_term = ref<string|undefined>()
 	const search_field = ref(ArchiveFields.NAME)
-	const sort_by = ref<string|undefined>()
+	const sort_by = ref<SortByFields|undefined>(SortByFields.TIME)
+	const sort_dir = ref<SortDirection>(SortDirection.ASC)
 	const show_metadata = ref(false)
 
 	const results = computed(() => {
@@ -36,7 +48,16 @@
 			data = getAll()
 		}
 
-		// if (sort_by.value) return { type, data }
+		if (sort_by.value) {
+			data = [...data].sort((a,b) => {
+				let a_value = a[sort_by.value!]
+				let b_value = b[sort_by.value!]
+
+				if (sort_dir.value == SortDirection.DESC) return b_value - a_value
+				return a_value - b_value
+			})
+		}
+
 		return { type, data }
 	})
 
@@ -58,9 +79,13 @@
 		<div class="h-full w-full flex-1 flex flex-col">
 			<div class="flex items-center gap-1/2 p-1/2 border-b border-neutral-350 dark:border-neutral-950 bg-neutral-200 dark:bg-neutral-850">
 				<div class="flex-1 text-2xl font-bold">FA Portal Submissions</div>
-				<div class="flex gap-1/2">
-					<TextInput v-model="search_term" class="w-12 border border-neutral-100" />
+				<div class="flex items-center gap-1/2">
+					<div>SEARCH</div>
+					<TextInput v-model="search_term" class="w-10 border border-neutral-100" />
 					<SelectEnum :enum="ArchiveFields" :format="(enum_type) => capitalizeFirstLetterAllWords(enum_type)" v-model="search_field" class="w-6" />
+					<div class="pl-1">SORT</div>
+					<SelectEnum :enum="SortByFields" :format="(enum_type) => capitalizeFirstLetterAllWords(enum_type)" v-model="sort_by" class="w-6" />
+					<SelectEnum :enum="SortDirection" :format="(enum_type) => capitalizeFirstLetterAllWords(enum_type)" v-model="sort_dir" class="w-6" />
 				</div>
 			</div>
 			<div class="flex-1 flex flex-col divide-y divide-neutral-300 dark:divide-neutral-950 overflow-y-auto">
