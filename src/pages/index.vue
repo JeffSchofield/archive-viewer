@@ -64,12 +64,44 @@
 				</div>
 			</div>
 			<div class="flex-1 flex flex-col divide-y divide-neutral-300 dark:divide-neutral-950 overflow-y-auto">
-				<RouterLink v-if="results.type == 'list'" v-for="metadata of results.data" :to="`/${metadata.id}`" class="block p-1/2 text-left" :class="(selected && selected.id == metadata.id) ? 'bg-white dark:bg-neutral-600' : 'even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850 hover:bg-neutral-0'">
-					<b>{{ metadata.shortdesc }}</b> by {{ metadata.username }}
+				<RouterLink v-if="results.type == 'list'" v-for="metadata of results.data" :to="`/${metadata.id}`" class="flex items-center gap-1/2 p-1/2 text-left" :class="(selected && selected.id == metadata.id) ? 'bg-white dark:bg-neutral-600' : 'even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850 hover:bg-white dark:hover:bg-neutral-700'">
+					<div class="flex flex-col space-y-1/8">
+						<div><b>{{ metadata.name }}</b> <span class="text-neutral-300 dark:text-neutral-500">by</span> {{ metadata.username }}</div>
+						<div class="text-xs leading-1/2 text-neutral-300 dark:text-neutral-500">{{ format("MMMM dd, yyyy", metadata.time * 1000) }}</div>
+					</div>
+					<div class="flex-1 flex items-center px-1/2">
+						<div class="px-1/2 py-1/4 rounded-3/8 leading-3/4 bg-white/10">{{ metadata.shortdesc }}</div>
+					</div>
+					<div class="flex gap-1/2 p-1/2">
+						<div class="flex justify-center items-center gap-1/2 min-w-2 px-1/2 py-1/4 rounded-full leading-3/4 bg-neutral-650">
+							<SvgIcon class="h-1 fill-current" name="star" />
+							<div>{{ metadata.score }}</div>
+						</div>
+						<div class="flex justify-center items-center gap-1/2 min-w-2 px-1/2 py-1/4 rounded-full leading-3/4 bg-neutral-650">
+							<SvgIcon class="h-1 fill-current" name="eye" />
+							<div>{{ metadata.views }}</div>
+						</div>
+					</div>
 				</RouterLink>
-				<RouterLink v-if="results.type == 'search'" v-for="result of results.data" :to="`/${result.obj.id}`" class="block p-1/2 text-left" :class="(selected && selected.id == result.obj.id) ? 'bg-white dark:bg-neutral-600' : 'even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850 hover:bg-neutral-0'">
-					<div><b>{{ result.obj.shortdesc }}</b> by {{ result.obj.username }}</div>
-					<div>{{ result.target }}</div>
+				<RouterLink v-if="results.type == 'search'" v-for="result of results.data" :to="`/${result.obj.id}`" class="flex items-center gap-1/2 p-1/2 text-left" :class="(selected && selected.id == result.obj.id) ? 'bg-white dark:bg-neutral-600' : 'even:bg-neutral-100 odd:bg-neutral-150 dark:even:bg-neutral-900 dark:odd:bg-neutral-850 hover:bg-neutral-0'">
+					<div class="flex flex-col space-y-1/8">
+						<div><b>{{ result.obj.name }}</b> <span class="text-neutral-300 dark:text-neutral-500">by</span> {{ result.obj.username }}</div>
+						<div class="text-xs leading-1/2 text-neutral-300 dark:text-neutral-500">{{ format("MMMM dd, yyyy", result.obj.time * 1000) }}</div>
+					</div>
+					<div class="flex-1 flex items-center px-1/2">
+						<div class="px-1/2 py-1/4 rounded-3/8 leading-3/4 bg-white/10" v-if="search_field != ArchiveFields.DESC">{{ result.obj.shortdesc }}</div>
+						<div class="px-1/2 py-1/4 rounded-3/8 leading-3/4 bg-white/10" v-else>{{ result.target }}</div>
+					</div>
+					<div class="flex gap-1/2 p-1/2">
+						<div class="flex justify-center items-center gap-1/2 min-w-2 px-1/2 py-1/4 rounded-full leading-3/4 bg-neutral-650">
+							<SvgIcon class="h-1 fill-current" name="star" />
+							<div>{{ result.obj.score }}</div>
+						</div>
+						<div class="flex justify-center items-center gap-1/2 min-w-2 px-1/2 py-1/4 rounded-full leading-3/4 bg-neutral-650">
+							<SvgIcon class="h-1 fill-current" name="eye" />
+							<div>{{ result.obj.views }}</div>
+						</div>
+					</div>
 				</RouterLink>
 			</div>
 		</div>
