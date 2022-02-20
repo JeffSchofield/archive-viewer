@@ -3,7 +3,7 @@ import { createRouter, createMemoryHistory, createWebHistory, RouteRecordRaw } f
 export function createAppRouter() {
 	const routes:RouteRecordRaw[] = [
 		{ path: '/', component: () => import('./pages/index.vue') },
-		{ path: '/:id', component: () => import('./pages/index.vue') },
+		{ path: '/s/:id', component: () => import('./pages/index.vue') },
 		{ path: '/:pathMatch(.*)*', component: () => import('./pages/404.vue') }
 	]
 
