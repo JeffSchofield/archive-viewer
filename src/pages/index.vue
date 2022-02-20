@@ -52,6 +52,10 @@
 			data = [...data].sort((a,b) => {
 				let a_value = a[sort_by.value!]
 				let b_value = b[sort_by.value!]
+				if (type == 'search') {
+					a_value = a.obj[sort_by.value!]
+					b_value = b.obj[sort_by.value!]
+				}
 
 				if (sort_dir.value == SortDirection.DESC) return b_value - a_value
 				return a_value - b_value
