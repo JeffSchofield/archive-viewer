@@ -19,7 +19,7 @@
 			player.style.height = `100%`
 
 			player_container.value.appendChild(player)
-			player.load(`${props.file_id}.swf`)
+			player.load(`/swf/${props.file_id}.swf`)
 		}
 	})
 </script>

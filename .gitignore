@@ -1,6 +1,6 @@
 node_modules/
 metadata/*.json
-swf/*.swf
+public/swf/*.swf
 dist/
 database.json
 .env

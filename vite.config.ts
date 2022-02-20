@@ -13,6 +13,6 @@ export default defineConfig({
       customDomId: 'svg-icons'
     })
   ],
-  publicDir: 'swf',
+  publicDir: 'public',
   envPrefix: 'VIEWER_'
 })
