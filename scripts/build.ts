@@ -23,10 +23,13 @@ async function bootstrap() {
 		}
 	})
 
+	const index_html = await readFile(join(dist_folder, 'index.html'), 'utf8') // Read the generated index file
+	// const submission_index_html = index_html.replace(//)
+
 	for (let submission of db.data) {
 		const submission_folder = join(dist_folder, `./s/${submission.id}`)
 		await ensureDir(submission_folder)
-		await copyFile(join(root_folder, 'index.html'), join(submission_folder, 'index.html'))
+		await writeFile(join(submission_folder, 'index.html'), index_html, 'utf8')
 	}
 }
 
