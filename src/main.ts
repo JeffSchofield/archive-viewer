@@ -3,6 +3,7 @@ import App from './App.vue'
 import { createAppRouter } from './router'
 import { createArchiveService } from './services/archive'
 import SvgIcon from './components/SvgIcon.vue'
+import 'virtual:svg-icons-register'
 
 
 export async function createApp() {
