@@ -1,7 +1,10 @@
-const { sync } = require('fast-glob')
-const { readFile, writeFile, stat } = require('fs-extra')
-const { v4 } = require('uuid')
-const unesc = require('lodash/unescape')
+import { sync } from 'fast-glob'
+import { readFile, writeFile, stat } from 'fs-extra'
+import { v4 } from 'uuid'
+import * as unesc from 'lodash/unescape'
+import { resolve, join } from 'path'
+const toAbsolute = (...p:string[]) => resolve(__dirname, ...p)
+const root_folder = toAbsolute('../')
 
 const db:{ indexes: { [key:string]:any }, collections: { [key:string]:any }, data:any[] } = {
 	indexes: {
@@ -17,9 +20,13 @@ const db:{ indexes: { [key:string]:any }, collections: { [key:string]:any }, dat
 	data: [],
 }
 
-async function bootstrap() {
+export async function parseMetadata() {
+	const database_file = join(root_folder, './database.json')
 	try {
-		if (await stat('./database.json')) return console.log('Database exists, skipping parse...')
+		if (await stat(database_file)) {
+			console.log('Database file already exists. Skipping processing step...')
+			return require(database_file) as typeof db
+		}
 	} catch(e) {}
 	const metadata_files = sync('./metadata/**.json')
 	if (metadata_files.length == 0) {
@@ -93,7 +100,8 @@ async function bootstrap() {
 	updateLine(`Finished processing ${i} records.\n`)
 	if (errors) console.log(`Unable to parse ${errors} records.`)
 
-	await writeFile('./database.json', JSON.stringify(db, null, '\t'))
+	await writeFile(database_file, JSON.stringify(db, null, '\t'))
+	return db
 }
 
 function decodeString(string:string) {
@@ -104,5 +112,3 @@ function updateLine(text:string){
 	process.stdout.cursorTo(0)
 	process.stdout.write(text)
 }
-
-bootstrap()
