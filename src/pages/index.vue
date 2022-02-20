@@ -12,14 +12,14 @@
 	const route = useRoute()
 
 	enum ArchiveFields {
-		USER_ID = 'user_id',
 		USERNAME = 'username',
+		NAME = 'name',
 		SHORTDESC = 'shortdesc',
 		DESC = 'desc',
 	}
 
 	const search_term = ref<string|undefined>()
-	const search_field = ref(ArchiveFields.SHORTDESC)
+	const search_field = ref(ArchiveFields.NAME)
 	const sort_by = ref<string|undefined>()
 	const show_metadata = ref(false)
 
@@ -27,8 +27,8 @@
 		let type:'list'|'search' = 'list'
 		let data:any[] = []
 		if (search_term.value) {
-			if (search_field.value == ArchiveFields.USER_ID) data = getAllByUserID(parseInt(search_term.value))
-			if (search_field.value == ArchiveFields.DESC || search_field.value == ArchiveFields.SHORTDESC || search_field.value == ArchiveFields.USERNAME) {
+			// if (search_field.value == ArchiveFields.USER_ID) data = getAllByUserID(parseInt(search_term.value))
+			if ([ArchiveFields.USERNAME, ArchiveFields.NAME, ArchiveFields.DESC, ArchiveFields.SHORTDESC].includes(search_field.value)) {
 				data = fuzzysort.go(search_term.value, getAll(), { threshold: 0, key: search_field.value })
 				type = 'search'
 			}
