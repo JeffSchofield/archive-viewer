@@ -6,6 +6,7 @@
   "scripts": {
     "process": "ts-node -O \" {\\\"module\\\": \\\"commonjs\\\" }\" ./scripts/process",
     "start": "npm run process && vite",
+    "build": "ts-node -O \" {\\\"module\\\": \\\"commonjs\\\" }\" ./scripts/build",
     "dev": "vite"
   },
   "devDependencies": {
